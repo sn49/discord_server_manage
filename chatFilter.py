@@ -353,7 +353,7 @@ async def 집(ctx):
                 progressbar += "..."
             cut += 100 / rangecut
         await ctx.send(
-            f"""{'%.5f'%percent}% [{progressbar}]\n{leave_time.days}일 {limit_h}시간 {limit_m}분 {limit_s}초"""
+            f"""{'%.2f'%percent}% [{progressbar}]\n{leave_time.days}일 {limit_h}시간 {limit_m}분 {limit_s}초"""
         )
 
 
