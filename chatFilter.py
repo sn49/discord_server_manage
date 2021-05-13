@@ -34,6 +34,9 @@ async def CheckMessage(message):
     blackwordfile = open("blackword.txt", encoding="UTF-8")
     blackwordlist = blackwordfile.read().split("\n")
 
+    if message.author.bot:
+        return
+
     for black in blackwordlist:
         if black in message.content:
             await message.delete()
