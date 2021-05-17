@@ -31,8 +31,10 @@ async def on_ready():
 
 
 async def CheckMessage(message):
-    blackwordfile = open("blackword.txt", encoding="UTF-8")
+    blackwordfile = open("blackword.txt", "r", encoding="UTF-8")
+
     blackwordlist = blackwordfile.read().split("\n")
+    blackwordfile.close()
 
     if message.author.bot:
         return
