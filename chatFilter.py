@@ -37,16 +37,11 @@ async def CheckMessage(message):
     if message.author.bot:
         return
 
-    for black in blackwordlist:
-        if black in message.content:
-            await message.delete()
-            return
-
-    if ("?" in message.content or "？" in message.content) and message.content[
-        0
-    ] == message.content[-1]:
-        await message.delete()
-        return
+    # if ("?" in message.content or "？" in message.content) and message.content[
+    #     0
+    # ] == message.content[-1]:
+    #     await message.delete()
+    #     return
 
     fullmsg = emoji.demojize(message.content, delimiters=("<:", ":00000>"))
 
@@ -62,6 +57,11 @@ async def CheckMessage(message):
     elif len(re.sub(r"<:\w*:\d*>", "", fullmsg)) > 200:
         await message.delete()
         return
+
+    for black in blackwordlist:
+        if black in message.content:
+            message.content.replace(black, "**")
+    await message.edit(message.content)
 
 
 @bot.event
@@ -114,79 +114,6 @@ async def on_reaction_add(reaction, user):
 
 
 chatStop = []
-
-
-@bot.command()
-async def 쿠폰(ctx):
-    directory = f"{rootname}{ctx.guild.id}"
-    filename = f"{directory}/channel{ctx.channel.id}.json"
-
-    jsonData = {}
-
-    if os.path.isfile(filename):
-        with open(filename, "r") as datafile:
-            jsonData = json.load(datafile)
-
-        keyname = f"user{ctx.author.id}"
-
-        if keyname in jsonData.keys():
-            await ctx.send(f"{jsonData[keyname]}장 보유중")
-            return
-
-    msg = await ctx.send("0장 보유중")
-
-
-@commands.cooldown(1, 20, commands.BucketType.user)
-@bot.command()
-async def 도전(ctx):
-    now = datetime.now()
-
-    if now.month == 4 and now.day <= 9 or True:
-        result = random.random() * 100
-
-        print(result)
-
-        if result < 20:
-            chatStop.append(ctx.author.id)
-            await ctx.send("2분동안 채팅 못함")
-
-            result = random.random() * 100
-
-            if result < 80:
-                directory = f"{rootname}{ctx.guild.id}"
-                filename = f"{directory}/coupon.json"
-                jsonData = {}
-
-                print(filename)
-
-                keyname = f"user{ctx.author.id}"
-
-                if os.path.isfile(filename):
-                    with open(filename, "r") as datafile:
-                        jsonData = json.load(datafile)
-
-                        if keyname in jsonData.keys():
-                            jsonData[keyname] += 1
-                        else:
-                            jsonData[keyname] = 1
-                else:
-                    jsonData[keyname] = 1
-
-                with open(filename, "w") as newFile:
-                    json.dump(jsonData, newFile)
-
-                msg = await ctx.send("gus쿠폰 1장 획득!")
-            else:
-                msg = await ctx.send("쿠폰 획득 실패...")
-            await asyncio.sleep(120)
-            chatStop.remove(ctx.author.id)
-            msg = await ctx.send(f"{ctx.author.nickname}, 채팅 풀림")
-
-        else:
-            msg = await ctx.send("통과(테스트 기간 : 4/1 ~ 4/9)")
-    else:
-        msg = await ctx.send("오류있어서 못씀")
-
 
 deleteCount = {}
 
@@ -342,7 +269,7 @@ async def 집(ctx):
                 + limit_m * 60
                 + limit_s
             )
-            / (104 * 60 * 60)
+            / (112 * 60 * 60)
             * 100
         )
 
