@@ -67,7 +67,7 @@ async def CheckMessage(message):
     if needDelete:
         await message.delete()
         await message.channel.send(
-            f"nick : {message.author.display_name}" + message.content
+            f"nick : {message.author.display_name}\n" + message.content
         )
 
 
