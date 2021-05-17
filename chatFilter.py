@@ -151,17 +151,6 @@ async def 리셋(ctx):
         await ctx.send("시즌3 필요할때 가능")
 
 
-@도전.error
-async def chal_error(ctx, error):
-    if isinstance(error, commands.CommandOnCooldown):
-        msg = "This command is ratelimited, please try again in {:.2f}s".format(
-            error.retry_after
-        )
-        await ctx.send(msg)
-    else:
-        raise error
-
-
 @bot.command()
 async def 점수(ctx):
     if False:
