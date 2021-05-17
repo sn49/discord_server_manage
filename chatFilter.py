@@ -62,7 +62,9 @@ async def CheckMessage(message):
         if black in message.content:
             message.content.replace(black, "**")
     await message.delete()
-    await ctx.send(f"nick : {message.author.display_name}" + message.content)
+    await message.channel.send(
+        f"nick : {message.author.display_name}" + message.content
+    )
 
 
 @bot.event
