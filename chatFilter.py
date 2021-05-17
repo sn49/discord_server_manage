@@ -62,13 +62,13 @@ async def CheckMessage(message):
 
     for black in blackwordlist:
         if black in message.content:
-            message.content=message.content.replace(black, "**")
+            message.content = message.content.replace(black, "##")
             needDelete = True
     if needDelete:
         await message.delete()
-    await message.channel.send(
-        f"nick : {message.author.display_name}" + message.content
-    )
+        await message.channel.send(
+            f"nick : {message.author.display_name}" + message.content
+        )
 
 
 @bot.event
