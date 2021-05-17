@@ -61,7 +61,8 @@ async def CheckMessage(message):
     for black in blackwordlist:
         if black in message.content:
             message.content.replace(black, "**")
-    await message.edit(content=message.content)
+    await message.delete()
+    await ctx.send(f"nick : {message.author.display_name}" + message.content)
 
 
 @bot.event
