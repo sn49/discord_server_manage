@@ -58,10 +58,14 @@ async def CheckMessage(message):
         await message.delete()
         return
 
+    needDelete = None
+
     for black in blackwordlist:
         if black in message.content:
-            message.content.replace(black, "**")
-    await message.delete()
+            message.content=message.content.replace(black, "**")
+            needDelete = True
+    if needDelete:
+        await message.delete()
     await message.channel.send(
         f"nick : {message.author.display_name}" + message.content
     )
