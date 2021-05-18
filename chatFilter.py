@@ -9,6 +9,7 @@ import os
 import random
 import asyncio
 import emoji
+from dateutil import tz
 
 rootname = "data/server"
 
@@ -158,6 +159,14 @@ async def 리셋(ctx):
                 await ctx.send(f"모든 채널 삭제까지 {3-deleteCount[str(ctx.guild.id)]}번 남았습니다.")
     else:
         await ctx.send("시즌3 필요할때 가능")
+
+
+@bot.command()
+async def 정보(ctx):
+
+    await ctx.send(
+        f"{ctx.guild.name}\n만들어진 시간 : {ctx.guild.created_at}(UTC)\n카테고리 개수 : {len(ctx.guild.categories)}\n채널 개수(음성 채널 포함) : {len(ctx.guild.channels)}\n"
+    )
 
 
 @bot.command()
