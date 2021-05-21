@@ -161,6 +161,31 @@ async def 리셋(ctx):
         await ctx.send("시즌3 필요할때 가능")
 
 
+tempvoice = False
+
+
+@bot.command()
+async def 제한음챗(ctx):
+    global tempvoice
+
+    limit = 300
+
+    if not tempvoice:
+        tempvoice = True
+        cate = discord.utils.get(ctx.guild.categories, name="채팅 채널")
+        channel = await ctx.guild.create_voice_channel(
+            name=f"5분 음챗(남은 시간 : {limit}초)", category=cate
+        )
+
+        for i in range(30):
+            asyncio.sleep(10)
+            limit -= 30
+            await channel.edit(name=f"5분 음챗(남은 시간 : {limit}초)")
+
+        await channel.delete()
+        tempvoice = False
+
+
 @bot.command()
 async def 정보(ctx):
 
