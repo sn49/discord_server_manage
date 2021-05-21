@@ -173,16 +173,16 @@ async def 제한음챗(ctx):
     if not tempvoice:
         tempvoice = True
         cate = discord.utils.get(ctx.guild.categories, name="채팅 채널")
-        channel = await ctx.guild.create_voice_channel(
+        chan = await ctx.guild.create_voice_channel(
             name=f"5분 음챗(남은 시간 : {limit}초)", category=cate
         )
 
         for i in range(30):
             await asyncio.sleep(10)
             limit -= 10
-            await channel.edit(name=f"5분 음챗(남은 시간 : {limit}초)")
+            await chan.edit(name=f"5분 음챗(남은 시간 : {limit}초)")
 
-        await channel.delete()
+        await chan.delete()
         tempvoice = False
 
 
