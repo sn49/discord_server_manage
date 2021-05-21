@@ -177,10 +177,7 @@ async def 제한음챗(ctx):
             name=f"5분 음챗(남은 시간 : {limit}초)", category=cate
         )
 
-        for i in range(30):
-            await asyncio.sleep(10)
-            limit -= 10
-            await chan.edit(name=f"5분 음챗(남은 시간 : {limit}초)")
+        await asyncio.sleep(300)
 
         await chan.delete()
         tempvoice = False
