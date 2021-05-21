@@ -86,33 +86,37 @@ async def on_message(tempmessage):
     await CheckMessage(tempmessage)
 
     await bot.process_commands(tempmessage)
+
+
+    now = datetime.now()
+
+    directory = f"{rootname}{tempmessage.guild.id}"
+    filename = f"{directory}/channel{tempmessage.channel.id}.json"
+
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+
+    if tempmessage.author.id in chatStop:
+        await tempmessage.delete()
+        return
+
+    jsonData = {}
+
+    date = f"{now.year}-{now.month}-{now.day}-{now.hour}-{now.minute}"
+
+    if os.path.isfile(filename):
+        with open(filename, "r") as datafile:
+            jsonData = json.load(datafile)
+
+    keyname = f"user{tempmessage.author.id}"
+
+    jsonData[keyname] = date
+
+    with open(filename, "w") as newFile:
+        json.dump(jsonData, newFile)
+        
     return
-    # now = datetime.now()
-
-    # directory = f"{rootname}{tempmessage.guild.id}"
-    # filename = f"{directory}/channel{tempmessage.channel.id}.json"
-
-    # if not os.path.exists(directory):
-    #     os.makedirs(directory)
-
-    # if tempmessage.author.id in chatStop:
-    #     await tempmessage.delete()
-    #     return
-
-    # jsonData = {}
-
-    # date = f"{now.year}-{now.month}-{now.day}-{now.hour}-{now.minute}"
-
-    # if os.path.isfile(filename):
-    #     with open(filename, "r") as datafile:
-    #         jsonData = json.load(datafile)
-
-    # keyname = f"user{tempmessage.author.id}"
-
-    # jsonData[keyname] = date
-
-    # with open(filename, "w") as newFile:
-    #     json.dump(jsonData, newFile)
+    
 
 
 @bot.event
@@ -173,9 +177,7 @@ async def 제한음챗(ctx):
     if not tempvoice:
         tempvoice = True
         cate = discord.utils.get(ctx.guild.categories, name="채팅 채널")
-        chan = await ctx.guild.create_voice_channel(
-            name=f"5분 음챗(남은 시간 : {limit}초)", category=cate
-        )
+        chan = await ctx.guild.create_voice_channel(name=f"5분 음챗", category=cate)
 
         await asyncio.sleep(300)
 
@@ -193,7 +195,7 @@ async def 정보(ctx):
 
 @bot.command()
 async def 점수(ctx):
-    if False:
+    if True:
         if ctx.channel.category.name == "봇관련":
             await ctx.send("점수를 측정하지 않는 카테고리입니다.")
             return
@@ -249,12 +251,16 @@ async def 점수(ctx):
             if lastscore > 0:
                 score += lastscore
 
-        if score // 10 >= 3:
-            catename = f"{score // 10 * 10}점 이상"
-            cate = discord.utils.get(ctx.guild.channels, name=catename)
-            if cate == None:
-                cate = await ctx.guild.create_category(name=catename)
-            await ctx.channel.edit(category=cate)
+        # 점수에 따른 카테고리 분리 폐지
+        # 점수에 따른 카테고리 분리 폐지
+        # 점수에 따른 카테고리 분리 폐지
+
+        # if score // 10 >= 3:
+        #     catename = f"{score // 10 * 10}점 이상"
+        #     cate = discord.utils.get(ctx.guild.channels, name=catename)
+        #     if cate == None:
+        #         cate = await ctx.guild.create_category(name=catename)
+        #     await ctx.channel.edit(category=cate)
 
         await ctx.send(f"{preText} {score}점")
     else:
