@@ -179,7 +179,7 @@ async def 제한음챗(ctx):
 
         for i in range(30):
             await asyncio.sleep(10)
-            limit -= 30
+            limit -= 10
             await channel.edit(name=f"5분 음챗(남은 시간 : {limit}초)")
 
         await channel.delete()
