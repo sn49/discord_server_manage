@@ -16,7 +16,7 @@ rootname = "data/server"
 tokenfile = open("token.json", "r", encoding="UTF-8")
 token = json.load(tokenfile)["token"]
 intents = discord.Intents.all()
-bot = commands.Bot(command_prefix=["c!","C!"])
+bot = commands.Bot(command_prefix=["c!", "C!"])
 
 
 @bot.event
@@ -84,6 +84,9 @@ async def on_message_edit(before, after):
 async def on_message(tempmessage):
 
     await CheckMessage(tempmessage)
+
+    if tempmessage.author.bot:
+        return
 
     await bot.process_commands(tempmessage)
 
