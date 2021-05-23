@@ -16,7 +16,7 @@ rootname = "data/server"
 tokenfile = open("token.json", "r", encoding="UTF-8")
 token = json.load(tokenfile)["token"]
 intents = discord.Intents.all()
-bot = commands.Bot(command_prefix=["gus", "Gus", "GUS"])
+bot = commands.Bot(command_prefix=["c!","C!"])
 
 
 @bot.event
@@ -87,7 +87,6 @@ async def on_message(tempmessage):
 
     await bot.process_commands(tempmessage)
 
-
     now = datetime.now()
 
     directory = f"{rootname}{tempmessage.guild.id}"
@@ -114,9 +113,8 @@ async def on_message(tempmessage):
 
     with open(filename, "w") as newFile:
         json.dump(jsonData, newFile)
-        
+
     return
-    
 
 
 @bot.event
@@ -134,7 +132,7 @@ deleteCount = {}
 
 @bot.command()
 async def 리셋(ctx):
-    if False:
+    if True:
         global deleteCount
 
         now = datetime.now()
@@ -146,7 +144,7 @@ async def 리셋(ctx):
 
             if deleteCount[str(ctx.guild.id)] == 3:
                 channelCount = 0
-                deleteCount[str(ctx.guild.id)] = 0
+                del deleteCount[str(ctx.guild.id)]
                 for channel in ctx.guild.channels:
                     channelCount += 1
                     await channel.delete()
@@ -154,15 +152,13 @@ async def 리셋(ctx):
                 for category in ctx.message.guild.categories:
                     await category.delete()
                     await asyncio.sleep(0.3)
-                channel = await ctx.guild.create_text_channel("시즌3 첫 채널")
-                await channel.send(
-                    f"시즌2 - 2021-03-31 10:06:02.130079 ~ {now}    채널 {channelCount}개 삭제"
-                )
+                channel = await ctx.guild.create_text_channel("첫 채널")
+                await channel.send(f"{ctx.guild.name} 리셋 - 채널 {channelCount}개 삭제")
 
             else:
                 await ctx.send(f"모든 채널 삭제까지 {3-deleteCount[str(ctx.guild.id)]}번 남았습니다.")
     else:
-        await ctx.send("시즌3 필요할때 가능")
+        await ctx.send("제한적인 상황에서만 허용")
 
 
 tempvoice = False
