@@ -85,10 +85,14 @@ async def on_message(tempmessage):
 
     await CheckMessage(tempmessage)
 
-    if tempmessage.author.bot:
-        return
-
     await bot.process_commands(tempmessage)
+
+    if (
+        tempmessage.author.bot
+        or "C!" in tempmessage.content
+        or "c!" in tempmessage.content
+    ):
+        return
 
     now = datetime.now()
 
