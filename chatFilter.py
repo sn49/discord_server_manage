@@ -192,7 +192,8 @@ async def 제한음챗(ctx):
 async def 정보(ctx):
 
     await ctx.send(
-        f"""{ctx.guild.name}\n
+        f"""
+        {ctx.guild.name}
         만들어진 시간 : {ctx.guild.created_at}(UTC)
         카테고리 개수 : {len(ctx.guild.categories)}
         텍스트 채널 개수 : {len(ctx.guild.text_channels)}
