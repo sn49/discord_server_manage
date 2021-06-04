@@ -193,11 +193,11 @@ async def 정보(ctx):
 
     await ctx.send(
         f"""{ctx.guild.name}\n
-        만들어진 시간 : {ctx.guild.created_at}(UTC)\n
-        카테고리 개수 : {len(ctx.guild.categories)}\n
-        텍스트 채널 개수 : {len(ctx.guild.text_channels)}\n
-        음성채널 개수 : {len(ctx.guild.voice_channels)}\n
-        스테이지 채널 개수 : {len(ctx.guild.stage_channels)}\n
+        만들어진 시간 : {ctx.guild.created_at}(UTC)
+        카테고리 개수 : {len(ctx.guild.categories)}
+        텍스트 채널 개수 : {len(ctx.guild.text_channels)}
+        음성채널 개수 : {len(ctx.guild.voice_channels)}
+        스테이지 채널 개수 : {len(ctx.guild.stage_channels)}
         """
     )
 
