@@ -102,10 +102,6 @@ async def on_message(tempmessage):
     if not os.path.exists(directory):
         os.makedirs(directory)
 
-    if tempmessage.author.id in chatStop:
-        await tempmessage.delete()
-        return
-
     jsonData = {}
 
     date = f"{now.year}-{now.month}-{now.day}-{now.hour}-{now.minute}"
@@ -188,6 +184,18 @@ async def 제한음챗(ctx):
         tempvoice = False
 
 
+# @bot.command()
+# async def 뭐하지(ctx):
+#     things = open("things.txt").readlines()
+#     dolist = open("dolist.txt").readlines()
+#     count = random.randrange(1, 11)
+
+#     result1 = random.choice(things).replace("\n", "")
+#     doresult = random.choice(dolist).replace("\n", "")
+
+#     await ctx.send(f"{}으로 {} {}번 하기")
+
+
 @bot.command()
 async def 정보(ctx):
 
@@ -247,17 +255,12 @@ async def 점수(ctx):
                 if lastchat > leave_time.days:
                     lastchat = leave_time.days
 
-                if past < 12:
-                    score += 6
-                elif past < 24:
-                    score += 3
-                elif past < 36:
-                    score += 2
-                elif past < 48:
-                    score += 1
+                if past < 48:
+                    score += 6 - past // 8
+                else:
+                    score += 0
 
-            print(f"lastchat : {lastchat}")
-            lastscore = 14 - lastchat * 2
+            lastscore = 10 - lastchat * 2
             if lastscore > 0:
                 score += lastscore
 
