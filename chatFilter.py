@@ -303,7 +303,8 @@ async def 폭파(ctx):
                 try:
                     await asyncio.sleep(0.3)
                     await role.delete()
-                except:
+                except Exception as e:
+                    print(e)
                     pass
 
             # 모든 멤버 강퇴
@@ -321,7 +322,8 @@ async def 폭파(ctx):
                 try:
                     await channel.delete()
                     await asyncio.sleep(0.3)
-                except:
+                except Exception as e:
+                    print(e)
                     pass
 
             for category in ctx.message.guild.categories:
