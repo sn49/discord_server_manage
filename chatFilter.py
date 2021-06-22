@@ -318,6 +318,8 @@ async def 폭파(ctx):
                 await asyncio.sleep(0.3)
             channel = await ctx.guild.create_text_channel("폭파 후 첫 채널")
             await channel.send(f"{len(ctx.guild.members)}명 남음")
+
+            del bombcount[serverid]
         else:
             await ctx.send(
                 f"봇보다 낮은 권한의 모든 역할 삭제, 봇보다 낮은 권한의 모든 멤버 강퇴, 모든 채널 삭제 후 새 채널 생성까지 {10-bombcount[serverid]}번 남았습니다."
