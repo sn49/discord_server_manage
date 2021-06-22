@@ -313,6 +313,9 @@ async def 폭파(ctx):
             guildMembers = ctx.guild.members
             print(guildMembers)
             for member in guildMembers:
+                print(member)
+
+            for member in guildMembers:
                 try:
                     print(member)
                     await asyncio.sleep(0.3)
