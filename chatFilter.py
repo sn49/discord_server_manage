@@ -311,7 +311,7 @@ async def 폭파(ctx):
 
             # 모든 멤버 강퇴
             guildMembers = ctx.guild.members
-            print(guildMembers)
+            print(len(guildMembers))
             for member in guildMembers:
                 print(member)
 
@@ -319,7 +319,7 @@ async def 폭파(ctx):
                 try:
                     print(member)
                     await asyncio.sleep(0.3)
-                    await ctx.guild.kick(member)
+                    await member.kick()
                 except Exception as e:
                     print(e)
                     pass
