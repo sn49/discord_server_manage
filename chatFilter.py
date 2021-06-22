@@ -12,13 +12,13 @@ import emoji
 from dateutil import tz
 
 rootname = "data/server"
-
+intents = discord.Intents.all()
 tokenfile = open("token.json", "r", encoding="UTF-8")
 token = json.load(tokenfile)["token"]
-bot = commands.Bot(command_prefix=["c!", "C!"])
+bot = commands.Bot(command_prefix=["c!", "C!"],intents=intents)
 
-intents = discord.Intents.all()
-client = discord.Client(intents=intents)
+
+
 
 
 @bot.event
