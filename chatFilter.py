@@ -311,7 +311,7 @@ async def 폭파(ctx):
             for member in guildMembers:
                 try:
                     await asyncio.sleep(0.3)
-                    await member.kick()
+                    await ctx.guild.kick(member)
                 except:
                     pass
 
