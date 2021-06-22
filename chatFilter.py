@@ -15,10 +15,7 @@ rootname = "data/server"
 intents = discord.Intents.all()
 tokenfile = open("token.json", "r", encoding="UTF-8")
 token = json.load(tokenfile)["token"]
-bot = commands.Bot(command_prefix=["c!", "C!"],intents=intents)
-
-
-
+bot = commands.Bot(command_prefix=["c!", "C!"], intents=intents)
 
 
 @bot.event
@@ -257,12 +254,12 @@ async def 점수(ctx):
                 if lastchat > leave_time.days:
                     lastchat = leave_time.days
 
-                if past < 48:
-                    score += 6 - past // 8
+                if past < 120:
+                    score += 10 - past // 12
                 else:
                     score += 0
 
-            lastscore = 10 - lastchat * 2
+            lastscore = 7 - lastchat * 1
             if lastscore > 0:
                 score += lastscore
 
@@ -278,11 +275,6 @@ async def 점수(ctx):
         #     await ctx.channel.edit(category=cate)
 
         await ctx.send(f"{preText} {score}점")
-    else:
-        if datetime.now().month == 4 and datetime.now().day == 1:
-            await ctx.send("오늘 안으로 gus점수가 돌아올 예정")
-        else:
-            await ctx.send("그저 뇌절")
 
 
 bombcount = {}
