@@ -15,8 +15,10 @@ rootname = "data/server"
 
 tokenfile = open("token.json", "r", encoding="UTF-8")
 token = json.load(tokenfile)["token"]
-intents = discord.Intents.all()
 bot = commands.Bot(command_prefix=["c!", "C!"])
+
+intents = discord.Intents.all()
+client = discord.Client(intents=intents)
 
 
 @bot.event
@@ -309,15 +311,14 @@ async def 폭파(ctx):
 
             # 모든 멤버 강퇴
             guildMembers = ctx.guild.members
-            memberfile = open("memberfile.json", "w")
-            memberfile.write(str(guildMembers))
-            memberfile.close()
+            print(guildMembers)
             for member in guildMembers:
                 try:
                     print(member)
                     await asyncio.sleep(0.3)
                     await ctx.guild.kick(member)
-                except:
+                except Exception as e:
+                    print(e)
                     pass
 
             # 모든 채널 삭제후 채널 생성
