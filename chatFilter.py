@@ -39,11 +39,11 @@ async def CheckMessage(message):
     if message.author.bot:
         return
 
-    # if ("?" in message.content or "？" in message.content) and message.content[
-    #     0
-    # ] == message.content[-1]:
-    #     await message.delete()
-    #     return
+    if ("?" in message.content or "？" in message.content) and message.content[
+        0
+    ] == message.content[-1]:
+        await message.delete()
+        return
 
     fullmsg = emoji.demojize(message.content, delimiters=("<:", ":00000>"))
 
@@ -254,12 +254,33 @@ async def 점수(ctx):
                 if lastchat > leave_time.days:
                     lastchat = leave_time.days
 
-                if past < 120:
-                    score += 10 - past // 12
-                else:
-                    score += 0
+                scoreplus = [
+                    16,
+                    15,
+                    14,
+                    13,
+                    12,
+                    7,
+                    6,
+                    5,
+                    4,
+                    3,
+                    2,
+                    1,
+                ]
 
-            lastscore = 7 - lastchat * 1
+                hourcut = 14
+
+                if past > hourcut * len(scoreplus):
+                    score += 0
+                else:
+                    score += scoreplus[past // hourcut]
+
+            lastscore = 14 - lastchat * 1
+
+            if lastchat == 0:
+                score += 3
+
             if lastscore > 0:
                 score += lastscore
 
