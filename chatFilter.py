@@ -39,9 +39,11 @@ async def CheckMessage(message):
     if message.author.bot:
         return
 
-    if ("?" in message.content or "？" in message.content) and message.content[
-        0
-    ] == message.content[-1]:
+    if (
+        ("?" in message.content or "？" in message.content)
+        and message.content[0] == message.content[-1]
+        and message.content[0] == "?"
+    ):
         await message.delete()
         return
 
