@@ -43,6 +43,7 @@ async def CheckMessage(message):
         ("?" in message.content or "？" in message.content)
         and message.content[0] == message.content[-1]
         and message.content[0] == "?"
+        and len(message.content) > 3
     ):
         await message.delete()
         return
