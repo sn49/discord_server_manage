@@ -11,10 +11,11 @@ import asyncio
 import emoji
 from dateutil import tz
 
+
 rootname = "data/server"
 intents = discord.Intents.all()
 tokenfile = open("token.json", "r", encoding="UTF-8")
-token = json.load(tokenfile)["token"]
+
 bot = commands.Bot(command_prefix=["c!", "C!"], intents=intents)
 
 
@@ -28,6 +29,30 @@ async def on_ready():
         status=discord.Status.online,
         activity=discord.Game("주말 기다리기를 매주"),
     )
+
+
+testinfo = {}
+
+
+@bot.event
+async def on_member_join(member):
+    global testinfo
+    testrole = discord.utils.get(member.guild.roles, name="입장테스트")
+    await member.add_roles(testrole)
+
+    channel = await member.guild.create_text_channel("입장채널")
+    selfbot = discord.utils.get(member.guild.members, id=bot.user.id)
+    await channel.set_permissions(member, read_messages=True)
+    await channel.set_permissions(selfbot, read_messages=True)
+    await channel.set_permissions(member.guild.default_role, read_messages=False)
+
+    testcode = random.sample(string.ascii_lowercase, 10)
+
+    testinfo[str(channel.id)] = {"userid": member.id, "testcode": testcode}
+
+    print(testinfo)
+
+    await channel.send(f"{testinfo[str(channel.id)]['testcode']} 순서대로 채팅")
 
 
 async def CheckMessage(message):
@@ -85,6 +110,23 @@ async def on_message_edit(before, after):
 @bot.event
 async def on_message(tempmessage):
 
+    if re.match("[a-z]{1}", tempmessage.content):
+
+        channelid = tempmessage.channel.id
+        print(testinfo[str(channelid)])
+        if str(channelid) in testinfo.keys():
+            if testinfo[str(channelid)]["testcode"][0] == tempmessage.content:
+                del testinfo[str(channelid)]["testcode"][0]
+                print(testinfo[str(channelid)])
+
+                if len(testinfo[str(channelid)]["testcode"]) == 0:
+                    testrole = discord.utils.get(tempmessage.guild.roles, name="입장테스트")
+                    await tempmessage.author.remove_roles(testrole)
+                    del testinfo[str(channelid)]
+                    await bot.get_channel(channelid).delete()
+
+        return
+
     await CheckMessage(tempmessage)
 
     await bot.process_commands(tempmessage)
@@ -126,7 +168,7 @@ async def on_message(tempmessage):
 async def on_reaction_add(reaction, user):
     if user.bot:
         return
-    if str(reaction) == "🖕":
+    if reaction.emoji == "🖕":
         await reaction.remove(user)
 
 
@@ -415,5 +457,13 @@ async def 집(ctx):
             f"""{'%.2f'%percent}% [{progressbar}]\n{leave_time.days}일 {limit_h}시간 {limit_m}분 {limit_s}초"""
         )
 
+
+testcheck = input("test모드 > 'test'입력")
+
+token = ""
+if testcheck == "test":
+    token = json.load(tokenfile)["testtoken"]
+else:
+    token = json.load(tokenfile)["token"]
 
 bot.run(token)
