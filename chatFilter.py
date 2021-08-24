@@ -110,10 +110,9 @@ async def on_message_edit(before, after):
 @bot.event
 async def on_message(tempmessage):
 
-    if re.match("[a-z]{1}", tempmessage.content):
+    if re.match("[a-z]{1}", tempmessage.content) and len(tempmessage.content) == 1:
 
         channelid = tempmessage.channel.id
-        print(testinfo[str(channelid)])
         if str(channelid) in testinfo.keys():
             if testinfo[str(channelid)]["testcode"][0] == tempmessage.content:
                 del testinfo[str(channelid)]["testcode"][0]
@@ -125,43 +124,43 @@ async def on_message(tempmessage):
                     del testinfo[str(channelid)]
                     await bot.get_channel(channelid).delete()
 
+    else:
+        print("test")
+        await CheckMessage(tempmessage)
+
+        await bot.process_commands(tempmessage)
+
+        if (
+            tempmessage.author.bot
+            or "C!" in tempmessage.content
+            or "c!" in tempmessage.content
+        ):
+            return
+
+        now = datetime.now()
+
+        directory = f"{rootname}{tempmessage.guild.id}"
+        filename = f"{directory}/channel{tempmessage.channel.id}.json"
+
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+
+        jsonData = {}
+
+        date = f"{now.year}-{now.month}-{now.day}-{now.hour}-{now.minute}"
+
+        if os.path.isfile(filename):
+            with open(filename, "r") as datafile:
+                jsonData = json.load(datafile)
+
+        keyname = f"user{tempmessage.author.id}"
+
+        jsonData[keyname] = date
+
+        with open(filename, "w") as newFile:
+            json.dump(jsonData, newFile)
+
         return
-
-    await CheckMessage(tempmessage)
-
-    await bot.process_commands(tempmessage)
-
-    if (
-        tempmessage.author.bot
-        or "C!" in tempmessage.content
-        or "c!" in tempmessage.content
-    ):
-        return
-
-    now = datetime.now()
-
-    directory = f"{rootname}{tempmessage.guild.id}"
-    filename = f"{directory}/channel{tempmessage.channel.id}.json"
-
-    if not os.path.exists(directory):
-        os.makedirs(directory)
-
-    jsonData = {}
-
-    date = f"{now.year}-{now.month}-{now.day}-{now.hour}-{now.minute}"
-
-    if os.path.isfile(filename):
-        with open(filename, "r") as datafile:
-            jsonData = json.load(datafile)
-
-    keyname = f"user{tempmessage.author.id}"
-
-    jsonData[keyname] = date
-
-    with open(filename, "w") as newFile:
-        json.dump(jsonData, newFile)
-
-    return
 
 
 @bot.event
