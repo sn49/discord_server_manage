@@ -36,6 +36,7 @@ testinfo = {}
 
 @bot.event
 async def on_member_join(member):
+
     global testinfo
     testrole = discord.utils.get(member.guild.roles, name="입장테스트")
     await member.add_roles(testrole)
@@ -120,7 +121,9 @@ async def on_message(tempmessage):
 
                 if len(testinfo[str(channelid)]["testcode"]) == 0:
                     testrole = discord.utils.get(tempmessage.guild.roles, name="입장테스트")
-                    await tempmessage.author.remove_roles(testrole)
+                    await bot.get_user(testinfo[str(channelid)]["userid"]).remove_roles(
+                        testrole
+                    )
                     del testinfo[str(channelid)]
                     await bot.get_channel(channelid).delete()
 
