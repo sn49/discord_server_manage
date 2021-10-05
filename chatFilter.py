@@ -115,7 +115,10 @@ async def on_message(tempmessage):
 
         channelid = tempmessage.channel.id
         if str(channelid) in testinfo.keys():
-            if testinfo[str(channelid)]["testcode"][0] == tempmessage.content:
+            if (
+                testinfo[str(channelid)]["testcode"][0] == tempmessage.content
+                and testinfo[str(channelid)]["userid"] == tempmessage.author.id
+            ):
                 del testinfo[str(channelid)]["testcode"][0]
                 print(testinfo[str(channelid)])
 
@@ -126,6 +129,8 @@ async def on_message(tempmessage):
                     )
                     del testinfo[str(channelid)]
                     await bot.get_channel(channelid).delete()
+            else:
+                await tempmessage.channel.send("문자를 틀렸거나 관리자가 대신 입력 할 수 없습니다.")
 
     else:
         print("test")
